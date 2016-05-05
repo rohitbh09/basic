@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <script>
 function _(el){
 	return document.getElementById(el);
@@ -37,13 +38,27 @@ function abortHandler(event){
 </script>
 </head>
 <body>
-<h2>HTML5 File Upload Progress Bar Tutorial</h2>
-<form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file" name="file1" id="file1"><br>
-  <input type="button" value="Upload File" onclick="uploadFile()">
-  <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
-  <h3 id="status"></h3>
-  <p id="loaded_n_total"></p>
-</form>
+<div class="upload-box">
+	<form id="upload_form" enctype="multipart/form-data" method="post">
+		<div class="lb-header">
+      <a href="#" class="active">Upload File</a>
+    </div>
+		<div class="u-form-group">
+       <input type="file" name="file1" id="file1"><br>
+    </div>
+    <div class="u-form-group">
+	  	<input type="button" value="Upload File" onclick="uploadFile()">
+    </div>
+    <div class="u-form-group">
+	  	<progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+	  </div>
+	  <div class="u-form-group">
+	  	<h3 id="status"></h3>
+	  </div>
+	  <div class="u-form-group">
+	  	<p id="loaded_n_total"></p>
+	  </div>
+	</form>
+</div>
 </body>
 </html>
