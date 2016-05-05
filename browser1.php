@@ -40,45 +40,36 @@ function getOS( $u_agent ) {
 
 }
 
-function getBrowser($u_agent)
-{
+function getBrowser($u_agent) {
+
+  $browser_data    =   array( "bname" => "", "ub" => "" );
 
   if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
   {
-      $bname = 'Internet Explorer';
-      $ub = "MSIE";
-  }
-  elseif(preg_match('/Trident/i',$u_agent))
-  { // this condition is for IE11
-      $bname = 'Internet Explorer';
-      $ub = "rv";
-  }
-  elseif(preg_match('/Firefox/i',$u_agent))
-  {
-      $bname = 'Mozilla Firefox';
-      $ub = "Firefox";
-  }
-  elseif(preg_match('/Chrome/i',$u_agent))
-  {
-      $bname = 'Google Chrome';
-      $ub = "Chrome";
-  }
-  elseif(preg_match('/Safari/i',$u_agent))
-  {
-      $bname = 'Apple Safari';
-      $ub = "Safari";
-  }
-  elseif(preg_match('/Opera/i',$u_agent))
-  {
-      $bname = 'Opera';
-      $ub = "Opera";
-  }
-  elseif(preg_match('/Netscape/i',$u_agent))
-  {
-      $bname = 'Netscape';
-      $ub = "Netscape";
-  }
 
+      $browser_data = array( "bname" => "Internet Explorer", "ub" => "MSIE" );
+  }
+  else{
+
+    $browser_array       =   array( '/Trident/i'  => array( "bname" => "Internet Explorer", "ub" => "rv" ),
+                                    '/Firefox/i'  => array( "bname" => "Mozilla Firefox", "ub" => "Firefox" ),
+                                    '/Chrome/i'   => array( "bname" => "Google Chrome", "ub" => "Chrome" ),
+                                    '/Safari/i'   => array( "bname" => "Apple Safari", "ub" => "Safari" ),
+                                    '/Opera/i'    => array( "bname" => "Opera", "ub" => "Opera" ),
+                                    '/Netscape/i' => array( "bname" => "Netscape", "ub" => "Netscape" ),
+                                  );
+
+
+    foreach ( $browser_array as $regex => $value) {
+
+        if (preg_match( $regex, $u_agent)) {
+            $browser_data    =   $value;
+            break;
+        }
+    }
+  }
+  $bname = $browser_data['bname'];
+  $ub = $browser_data['ub'];
   $known = array('Version', $ub, 'other');
   $pattern = '#(?<browser>' . join('|', $known) .
    ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
@@ -137,6 +128,7 @@ function getBrowserDetail()
 }
 
 // now try it
+$u_agent = $_SERVER['HTTP_USER_AGENT'];
 $ua=getBrowserDetail();
 print("Browser Name:". $ua['name']."\n<br/>");
 print("Browser Version:". $ua['version']."\n<br/>");

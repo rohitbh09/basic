@@ -1,12 +1,9 @@
 <?php
 
-// get Get operating system info from $_SERVER object
-function getOSInfo( $u_agent ) {
+function getOS( $u_agent ) {
 
-    // declare veriable for if we will not found known OS
     $os_platform    =   "Unknown OS Platform";
 
-    // known OS array
     $os_array       =   array( '/webos/i'              =>  'Mobile',
                                 '/blackberry/i'         =>  'BlackBerry',
                                 '/android/i'            =>  'Android',
@@ -32,7 +29,7 @@ function getOSInfo( $u_agent ) {
                                 '/windows nt 10/i'     =>  'Windows 10'
                               );
 
-    foreach ( $os_array as $regex => $value) {
+    foreach ($os_array as $regex => $value) {
 
         if (preg_match($regex, $u_agent)) {
             $os_platform    =   $value;
@@ -40,13 +37,13 @@ function getOSInfo( $u_agent ) {
         }
     }
     return $os_platform;
+
 }
 
-function getBrowserInfo($u_agent) {
+function getBrowser($u_agent)
+{
 
-  // declare veriable for if we will not found known browser
   $browser_data    =   array( "bname" => "", "ub" => "" );
-
 
   if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
   {
@@ -55,7 +52,6 @@ function getBrowserInfo($u_agent) {
   }
   else{
 
-    // known browser array
     $browser_array       =   array( '/Trident/i'  => array( "bname" => "Internet Explorer", "ub" => "rv" ),
                                     '/Firefox/i'  => array( "bname" => "Mozilla Firefox", "ub" => "Firefox" ),
                                     '/Chrome/i'   => array( "bname" => "Google Chrome", "ub" => "Chrome" ),
@@ -104,19 +100,12 @@ function getBrowserInfo($u_agent) {
   $browserObj->version = $version;
   return $browserObj;
 }
+// now try it
+$ua=getBrowserDetail();
+print("Browser Name:". $ua['name']."\n<br/>");
+print("Browser Version:". $ua['version']."\n<br/>");
+print("Browser Platform:". $ua['platform']."\n<br/>");
 
-// get $_SERVER Object for check browser info
-$u_agent = $_SERVER['HTTP_USER_AGENT'];
-
-// get  Operating System info
-$platform = getOSInfo( $u_agent );
-
-// get  Browser info
-$browserObj = getBrowserInfo($u_agent);
-
-
-print("Browser Name:". $browserObj->bname."\n<br/>");
-print("Browser Version:". $browserObj->version."\n<br/>");
-print("Browser Platform:". $platform."\n<br/>");
-
+// $yourbrowser= "Your browser: " . $ua['name'] . " " . $ua['version'] . " on " .$ua['platform'] . " reports: <br >" . $ua['userAgent'];
+// print_r($yourbrowser);
 ?>
