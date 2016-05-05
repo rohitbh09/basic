@@ -1,10 +1,12 @@
 <?php
 
-$fileName = $_FILES["file1"]["name"]; // The file name
-$fileTmpLoc = $_FILES["file1"]["tmp_name"]; // File in the PHP tmp folder
-$fileType = $_FILES["file1"]["type"]; // The type of file it is
-$fileSize = $_FILES["file1"]["size"]; // File size in bytes
-$fileErrorMsg = $_FILES["file1"]["error"]; // 0 for false... and 1 for true
+$fileName     = $_FILES["uploadFileInp"]["name"]; // The file name
+$fileTmpLoc   = $_FILES["uploadFileInp"]["tmp_name"]; // File in the PHP tmp folder
+$fileType     = $_FILES["uploadFileInp"]["type"]; // The type of file it is
+$fileSize     = $_FILES["uploadFileInp"]["size"]; // File size in bytes
+$fileErrorMsg = $_FILES["uploadFileInp"]["error"]; // 0 for false... and 1 for true
+$target_dir   = "uploads/".$fileName;
+
 if (!$fileTmpLoc) { // if file not chosen
 
   $uploadError = array( 0=>"There is no error, the file uploaded with success",
@@ -26,7 +28,15 @@ if (!$fileTmpLoc) { // if file not chosen
 
     exit();
 }
-if(move_uploaded_file($fileTmpLoc, $fileName)){
+
+if ( ! is_writable(dirname($target_dir))) {
+
+    echo dirname( $target_dir ) . ' folder must writable!!!';
+    exit();
+}
+
+
+if(move_uploaded_file( $fileTmpLoc, $target_dir.$fileName)){
     echo "$fileName upload is complete";
 } else {
     echo "move_uploaded_file function failed";
